@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap');
+
+:root {
+  --blush:     #CCA0A0;
+  --rose:      #CF7381;
+  --chestnut:  #795654;
+  --crimson:   #A3334B;
+  --burgundy:  #531C24;
+  --blush-bg:  #F9F0F0;
+  --rose-bg:   #F7EAEC;
+  --crimson-bg:#F5E6EA;
+  --border:    #ECDCDC;
+  --white:     #ffffff;
+  --bg:        #faf6f6;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--bg);
+  color: var(--burgundy);
+  -webkit-font-smoothing: antialiased;
+}
+
+input, button, select, textarea {
+  font-family: 'Lato', sans-serif;
+}
+
+::placeholder {
+  color: var(--blush);
+  opacity: 1;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--blush-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blush);
+  border-radius: 4px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dropDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
