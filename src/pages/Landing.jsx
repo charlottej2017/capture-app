@@ -38,15 +38,10 @@ export default function Landing() {
 
       {/* Hero */}
       <section className={styles.hero}>
-        <div className={styles.heroEyebrow}>For 9–5 professionals</div>
         <h1 className={styles.heroTitle}>
           Stop letting things<br />
           <em>fall through the cracks.</em>
         </h1>
-        <p className={styles.heroSub}>
-          One place for every task, deadline, and reminder — organized by priority,
-          separated by type, connected to your email.
-        </p>
         <div className={styles.heroCtas}>
           <Link to="/signup" className={styles.primaryBtn}>Start for free</Link>
           <Link to="/login" className={styles.ghostBtn}>I have an account</Link>
@@ -75,7 +70,14 @@ export default function Landing() {
       {/* Footer */}
       <footer className={styles.footer}>
         <span className={styles.logo}>Capture</span>
-        <span className={styles.footerText}>Built for busy people.</span>
+        <a
+          href="https://charscontent.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.footerLink}
+        >
+          Char's Content, LLC
+        </a>
       </footer>
     </div>
   )
