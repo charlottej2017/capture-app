@@ -38,6 +38,9 @@ export default function Landing() {
 
       {/* Hero */}
       <section className={styles.hero}>
+        <div className={styles.heroEyebrow}>
+          Your all-in-one task & reminder manager
+        </div>
         <h1 className={styles.heroTitle}>
           Stop letting things<br />
           <em>fall through the cracks.</em>
