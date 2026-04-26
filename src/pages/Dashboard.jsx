@@ -139,30 +139,65 @@ export default function Dashboard({ session }) {
 
   useEffect(() => { if (showAdd && titleRef.current) titleRef.current.focus() }, [showAdd])
 
-  const save = async () => {
+const save = async () => {
     if (!newItem.title.trim()) return
     setSaving(true)
-    const { error } = await supabase.from('items').insert([{
+
+    // Optimistic update — show instantly
+    const tempId = `temp-${Date.now()}`
+    const tempItem = {
+      ...newItem,
+      id: tempId,
+      user_id: user.id,
+      kind: view === 'reminders' ? 'reminder' : 'task',
+      due_date: newItem.due_date || null,
+      done: false,
+      createdAt: Date.now(),
+      created_at: new Date().toISOString(),
+    }
+    setItems(p => [tempItem, ...p])
+    setNewItem({ kind:'task', title:'', priority:'medium', source:'manual', due_date:'', note:'' })
+    setShowAdd(false)
+    setSaving(false)
+
+    // Save to database in background
+    const { data, error } = await supabase.from('items').insert([{
       ...newItem,
       user_id: user.id,
       kind: view === 'reminders' ? 'reminder' : 'task',
       due_date: newItem.due_date || null,
       done: false,
-    }])
-    if (!error) {
-      setNewItem({ kind:'task', title:'', priority:'medium', source:'manual', due_date:'', note:'' })
-      setShowAdd(false)
+    }]).select().single()
+
+    if (error) {
+      // If save failed, remove the temp item
+      setItems(p => p.filter(t => t.id !== tempId))
+    } else {
+      // Replace temp item with real one from database
+      setItems(p => p.map(t => t.id === tempId ? data : t))
     }
-    setSaving(false)
   }
 
-  const toggle = async (item) => {
-    await supabase.from('items').update({ done: !item.done }).eq('id', item.id)
+const toggle = async (item) => {
+    // Optimistic update — show instantly
+    setItems(p => p.map(t => t.id === item.id ? { ...t, done: !item.done } : t))
+    // Save in background
+    const { error } = await supabase.from('items').update({ done: !item.done }).eq('id', item.id)
+    // Revert if failed
+    if (error) setItems(p => p.map(t => t.id === item.id ? { ...t, done: item.done } : t))
   }
 
-  const remove = async (id) => {
+const remove = async (id) => {
     setExpandId(null)
-    await supabase.from('items').delete().eq('id', id)
+    // Optimistic update — remove instantly
+    setItems(p => p.filter(t => t.id !== id))
+    // Delete in background
+    const { error } = await supabase.from('items').delete().eq('id', id)
+    // If failed, reload items from database
+    if (error) {
+      const { data } = await supabase.from('items').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
+      if (data) setItems(data)
+    }
   }
 
   const update = async (id, patch) => {
