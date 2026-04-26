@@ -319,7 +319,7 @@ export default function Dashboard({ session }) {
               style={{
                 background: 'var(--blush-bg)', border: '1px solid var(--border)',
                 borderRadius: 8, padding: '6px 12px', fontSize: 11, fontWeight: 700,
-                color: 'var(--chestnut)', cursor: 'pointer', fontFamily: '"'"'Lato'"'"', sans-serif',
+                color: 'var(--chestnut)', cursor: 'pointer', fontFamily: 'Lato, sans-serif',
               }}>
               ✉ Gmail
             </button>
