@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import GmailConnect from '../components/GmailConnect'
 import { supabase } from '../lib/supabase'
 import styles from './Dashboard.module.css'
 
@@ -101,6 +102,8 @@ export default function Dashboard({ session }) {
   const [expandId, setExpandId]   = useState(null)
   const [search, setSearch]       = useState('')
   const [saving, setSaving]       = useState(false)
+  const [showGmail, setShowGmail] = useState(false)
+  const [gmailPending, setGmailPending] = useState(0)
   const [affirmation]             = useState(getDailyAffirmation)
   const [newItem, setNewItem]     = useState({ kind:'task', title:'', priority:'medium', source:'manual', due_date:'', note:'' })
   const titleRef = useRef(null)
@@ -311,6 +314,15 @@ export default function Dashboard({ session }) {
                 <span className={styles.overdueLabel}>overdue</span>
               </div>
             )}
+            <button
+              onClick={() => setShowGmail(true)}
+              style={{
+                background: 'var(--blush-bg)', border: '1px solid var(--border)',
+                borderRadius: 8, padding: '6px 12px', fontSize: 11, fontWeight: 700,
+                color: 'var(--chestnut)', cursor: 'pointer', fontFamily: '"'"'Lato'"'"', sans-serif',
+              }}>
+              ✉ Gmail
+            </button>
             <div className={styles.userChip}>
               <span className={styles.userEmail}>{user.email?.split('@')[0]}</span>
               <button className={styles.signOutBtn} onClick={signOut}>Sign out</button>
@@ -465,6 +477,13 @@ export default function Dashboard({ session }) {
           </>
         )}
       </main>
+
+      {showGmail && (
+        <GmailConnect
+          userId={user.id}
+          onClose={() => setShowGmail(false)}
+        />
+      )}
 
       {/* FAB */}
       <button className={styles.fab}
