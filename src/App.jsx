@@ -5,6 +5,7 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
+import GmailCallback from './pages/GmailCallback'
 
 export default function App() {
   const [session, setSession] = useState(null)
@@ -47,6 +48,7 @@ export default function App() {
       <Route path="/login" element={session ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/signup" element={session ? <Navigate to="/dashboard" /> : <Signup />} />
       <Route path="/dashboard" element={session ? <Dashboard session={session} /> : <Navigate to="/login" />} />
+      <Route path="/gmail-callback" element={<GmailCallback />} />
     </Routes>
   )
 }
