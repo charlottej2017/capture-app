@@ -141,7 +141,7 @@ async function fetchEmails(accessToken: string, triggerType: string, labelName: 
   } else if (triggerType === 'star') {
     query = 'is:starred is:unread'
   } else {
-    query = `label:${labelName || 'capture'} OR is:starred is:unread`
+    query = `label:${labelName || 'capture'} OR is:starred`
   }
 
   // Get message IDs
